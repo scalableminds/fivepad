@@ -1,0 +1,28 @@
+{
+  "src": {
+    "dir": "app",
+    "copy": ["app/index.html"],
+    "scripts": "app/scripts/**/*.{js,coffee}",
+    "styles": "app/styles/index.less",
+    "styles_paths": [
+      "www",
+      "app/styles"
+    ],
+    "images": "app/images/**/*.{jpg,png,gif}"
+  },
+  "dest": {
+    "dir": "www",
+    "scripts": "www/scripts",
+    "styles": "www/styles",
+    "images": "www/images"
+  },
+  "serve": {
+    "port": 8080,
+    "root": "www",
+    "defaultFile": "index.html"
+  },
+  "additionalModules": {
+    "amdOptimize": "amd-optimize",
+    "rimraf": "rimraf"
+  }
+}
