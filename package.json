@@ -1,15 +1,15 @@
 {
-  "name": "boot",
+  "name": "scratchpad",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/scalableminds/boot"
+    "url": "git://github.com/scalableminds/scratchpad"
   },
   "author": "Your Name <email@scm.io>",
   "license": "MIT",
-  "homepage": "https://github.com/scalableminds/boot",
+  "homepage": "https://github.com/scalableminds/scratchpad",
   "dependencies": {
     "amd-optimize": "0.0.6",
     "bower": "^1.3.8",
