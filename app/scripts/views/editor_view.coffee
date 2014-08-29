@@ -1,12 +1,16 @@
 ### define
 backbone : Backbone
 ace/ace : Ace
+lib/empty_theme : EmptyTheme
 ###
 
 
 class EditorView extends Backbone.View
 
   className : "editor-view"
+
+  initialize : ->
+    @handleChange = _.debounce(@handleChange, 200)
 
   render : ->
 
@@ -17,20 +21,22 @@ class EditorView extends Backbone.View
     )
 
     @editor = Ace.edit(@el)
-    @editor.setTheme("ace/theme/github")
+    @editor.setTheme(EmptyTheme)
     @editor.getSession().setMode("ace/mode/markdown")
+    @editor.renderer.setShowGutter(false)
+    @editor.renderer.setShowPrintMargin(false)
+    @editor.getSession().setUseWrapMode(true)
+    @editor.getSession().on("change", @handleChange.bind(this))
 
-    @editor.getSession().setValue("""
-      # Hallo Welt
-      That's the way, ah ha uh ha, i like it.
-
-      * Hallo
-
-      [WAT](https://scm.io)
-
-      > That's what she
-        said!
-    """)
+    @editor.getSession().setValue(
+      window.localStorage.getItem("editor-content-1")
+    )
 
 
     return this
+
+
+  handleChange : ->
+
+    window.localStorage.setItem("editor-content-1", @editor.getSession().getValue())
+
