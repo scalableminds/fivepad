@@ -15,6 +15,8 @@ require.config(
       underscore : "lodash"
     marionette :
       underscore : "lodash"
+    "ace/mode/markdown" :
+      "ace/mode/markdown_highlight_rules" : "lib/markdown_highlight_rules"
 
 
   shim :

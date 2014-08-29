@@ -1,5 +1,5 @@
 ### define
-ace/ace : DOM
+ace/ace : AceEditor
 ###
 
 exports = {
