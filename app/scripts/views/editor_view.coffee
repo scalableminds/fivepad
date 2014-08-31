@@ -2,6 +2,7 @@
 backbone : Backbone
 ace/ace : Ace
 lib/empty_theme : EmptyTheme
+app : app
 ###
 
 
@@ -15,9 +16,9 @@ class EditorView extends Backbone.View
 
   render : ->
     @$el.css(
-      fontFamily : "Source Code Pro"
-      fontSize : "16pt"
-      fontWeight : 300
+      fontFamily : app.options.fontFamily
+      fontSize : app.options.fontSize
+      fontWeight : app.options.fontWeight
     )
 
     @editor = Ace.edit(@el)

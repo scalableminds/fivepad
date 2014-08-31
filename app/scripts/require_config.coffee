@@ -1,6 +1,6 @@
 require.config(
 
-  baseUrl : "scripts"
+  baseUrl : "/scripts"
   waitSeconds : 15
 
   paths :

@@ -28,6 +28,7 @@ class PanelView extends Backbone.View
   render : ->
     @$el.html(@template(number : @number))
     @$el.addClass("number-#{@number}")
+    @$el.css("background-color", app.options.colors[@number])
 
     @$("input").val(
       window.localStorage.getItem("title-#{@number}")
@@ -54,7 +55,8 @@ class PanelView extends Backbone.View
 
 
   handleClick : ->
-    app.trigger("panel:activate", this)
+    app.router.navigate("/panel/#{@number}", trigger : true)
+
 
   handleChangeTitle : ->
     window.localStorage.setItem(

@@ -5,7 +5,8 @@ require [
   "lodash"
   "app"
   "./router"
-], ($, _, app, Router) ->
+  "views/layout_view"
+], ($, _, app, Router, LayoutView) ->
 
   window.app = app
 
@@ -13,7 +14,26 @@ require [
     app.router = new Router()
   )
 
+  app.addInitializer( ->
+    app.options = {
+      colors : [
+        "#D1F2A5"
+        "#EFFAB4"
+        "#FFC48C"
+        "#FF9F80"
+        "#F56991"
+      ]
+      fontFamily : "Source Code Pro"
+      fontSize : "16pt"
+      fontWeight : 300
+    }
+  )
+
   app.on("start", ->
+
+    app.view = new LayoutView()
+    $("#main").append(app.view.render().el)
+
     Backbone.history.start(
       pushState: true
     )

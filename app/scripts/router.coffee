@@ -2,8 +2,6 @@
 jquery : $
 backbone : Backbone
 lib/uber_router : UberRouter
-views/editor_view : EditorView
-views/layout_view : LayoutView
 ###
 
 class Router extends UberRouter
@@ -13,9 +11,9 @@ class Router extends UberRouter
 
   routes :
     "" : "home"
+    "panel/:panel_number" : "panel"
 
   whitelist : []
 
-  home : ->
-    view = new LayoutView()
-    @changeView(view)
+  panel : (number) ->
+    app.view.setActive(number)
