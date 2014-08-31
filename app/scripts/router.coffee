@@ -3,6 +3,7 @@ jquery : $
 backbone : Backbone
 lib/uber_router : UberRouter
 views/editor_view : EditorView
+views/layout_view : LayoutView
 ###
 
 class Router extends UberRouter
@@ -16,5 +17,5 @@ class Router extends UberRouter
   whitelist : []
 
   home : ->
-    view = new EditorView()
+    view = new LayoutView()
     @changeView(view)

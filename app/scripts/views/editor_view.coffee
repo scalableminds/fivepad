@@ -10,10 +10,10 @@ class EditorView extends Backbone.View
   className : "editor-view"
 
   initialize : ->
-    @handleChange = _.debounce(@handleChange, 200)
+    @handleValueChange = _.debounce(@handleValueChange, 200)
+
 
   render : ->
-
     @$el.css(
       fontFamily : "Source Code Pro"
       fontSize : "16pt"
@@ -26,17 +26,20 @@ class EditorView extends Backbone.View
     @editor.renderer.setShowGutter(false)
     @editor.renderer.setShowPrintMargin(false)
     @editor.getSession().setUseWrapMode(true)
-    @editor.getSession().on("change", @handleChange.bind(this))
-
-    @editor.getSession().setValue(
-      window.localStorage.getItem("editor-content-1")
-    )
-
+    @editor.getSession().on("change", @handleValueChange.bind(this))
 
     return this
 
 
-  handleChange : ->
+  handleValueChange : ->
+    @trigger("change", @editor.getSession().getValue(), this)
+    return
 
-    window.localStorage.setItem("editor-content-1", @editor.getSession().getValue())
+
+  setValue : (value) ->
+    @editor.getSession().setValue(value)
+    return
+
+  resize : ->
+    @editor.resize()
 
