@@ -43,3 +43,6 @@ class EditorView extends Backbone.View
   resize : ->
     @editor.resize()
 
+  focus : ->
+    @editor.focus()
+

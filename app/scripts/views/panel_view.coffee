@@ -27,6 +27,7 @@ class PanelView extends Backbone.View
 
   render : ->
     @$el.html(@template(number : @number))
+    @$el.addClass("number-#{@number}")
 
     @$("input").val(
       window.localStorage.getItem("title-#{@number}")
@@ -67,6 +68,7 @@ class PanelView extends Backbone.View
   activate : ->
     @$el.addClass("active")
     @editorView.resize()
+    @editorView.focus()
 
 
   deactivate : ->
