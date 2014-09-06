@@ -2,6 +2,7 @@
 backbone : Backbone
 lodash : _
 ./panel_view : PanelView
+models/note_model : NoteModel
 ###
 
 class LayoutView extends Backbone.View
@@ -18,8 +19,14 @@ class LayoutView extends Backbone.View
 
   render : ->
 
-    @panels = _.times(5, (i) ->
-      new PanelView(number : i)
+    @collection = new Backbone.Collection(_.times(5, (i) ->
+      model = new NoteModel(id : i)
+      model.fetch()
+      return model
+    ))
+
+    @panels = @collection.map((model, i) ->
+      new PanelView(model : model)
     )
 
     @panels.forEach((view) =>

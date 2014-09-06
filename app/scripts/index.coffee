@@ -16,6 +16,7 @@ require [
 
   app.addInitializer( ->
     app.options = {
+      # http://www.colourlovers.com/palette/373610/mellon_ball_surprise
       colors : [
         "#D1F2A5"
         "#EFFAB4"

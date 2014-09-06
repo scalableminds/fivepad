@@ -21,51 +21,32 @@ class PanelView extends Backbone.View
     "change input" : "handleChangeTitle"
 
 
-  initialize : (options) ->
-    @number = options.number
-
-
   render : ->
-    @$el.html(@template(number : @number))
-    @$el.addClass("number-#{@number}")
-    @$el.css("background-color", app.options.colors[@number])
+    @$el.html(@template())
+    @$el.addClass("number-#{@model.id}")
+    @$el.css("background-color", app.options.colors[@model.id])
 
-    @$("input").val(
-      window.localStorage.getItem("title-#{@number}")
-    )
-    @$("label").html(
-      window.localStorage.getItem("title-#{@number}")
-    )
+    @$("input").val(@model.get("title"))
+    @$("label").html(@model.get("title"))
 
-    @editorView = new EditorView(el : @$(".editor-view"), number : @number)
+    @editorView = new EditorView(el : @$(".editor-view"))
     @editorView.render()
-
-    @editorView.setValue(
-      window.localStorage.getItem("editor-content-#{@number}")
-    )
+    @editorView.setValue(@model.get("contents"))
 
     @listenTo(@editorView, "change", (value) ->
-      window.localStorage.setItem(
-        "editor-content-#{@number}",
-        value
-      )
+      @model.save("contents", value)
     )
 
     return this
 
 
   handleClick : ->
-    app.router.navigate("/panel/#{@number}", trigger : true)
+    app.router.navigate("/panel/#{@model.id}", trigger : true)
 
 
   handleChangeTitle : ->
-    window.localStorage.setItem(
-      "title-#{@number}",
-      @$("input").val()
-    )
-    @$("label").html(
-      window.localStorage.getItem("title-#{@number}")
-    )
+    @model.save("title", @$("input").val())
+    @$("label").html(@model.get("title"))
 
   activate : ->
     @$el.addClass("active")

@@ -9,6 +9,7 @@ require.config(
     marionette : "../bower_components/marionette/lib/backbone.marionette"
     jquery : "../bower_components/jquery/dist/jquery"
     ace : "../bower_components/ace-builds/src/"
+    dropbox : "https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest"
 
   map :
     backbone :
@@ -20,13 +21,7 @@ require.config(
 
 
   shim :
-    "jquery.easie" :
-      deps : [ "jquery" ]
-    "jquery.transit" :
-      deps : [ "jquery" ]
-    "inflate" :
-      exports : "Zlib"
-    "vendor/analytics" :
-      exports : "ga"
+    dropbox :
+      exports : "Dropbox"
 
 )
