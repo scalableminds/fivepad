@@ -1,6 +1,6 @@
 require.config(
 
-  baseUrl : "/scripts"
+  baseUrl : "scripts"
   waitSeconds : 15
 
   paths :
@@ -11,7 +11,7 @@ require.config(
     ace : "../bower_components/ace-builds/src/"
     mousetrap : "../bower_components/mousetrap/mousetrap"
     hammer : "../bower_components/hammerjs/hammer"
-    dropbox : "https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest"
+    dropbox : "lib/dropbox-datastores-1.1.0"
 
   map :
     backbone :

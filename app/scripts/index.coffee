@@ -6,16 +6,20 @@ require [
   "app"
   "./router"
   "views/layout_view"
-], ($, _, app, Router, LayoutView) ->
+  "services/dropbox_service"
+], ($, _, app, Router, LayoutView, DropboxService) ->
 
   window.app = app
 
   app.addInitializer( ->
+    app.dropboxService = new DropboxService()
+
     app.router = new Router()
   )
 
   app.addInitializer( ->
     app.options = {
+      panelCount : 5
       # http://www.colourlovers.com/palette/373610/mellon_ball_surprise
       colors : [
         "#D1F2A5"
@@ -35,9 +39,7 @@ require [
     app.view = new LayoutView()
     $("#main").append(app.view.render().el)
 
-    Backbone.history.start(
-      pushState: true
-    )
+    Backbone.history.start()
   )
 
   $ ->

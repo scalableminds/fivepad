@@ -25,7 +25,7 @@ class PanelView extends Backbone.View
   render : ->
     @$el.html(@template())
     @$el.addClass("number-#{@model.id}")
-    @$el.css("background-color", app.options.colors[@model.id])
+    @$el.css("background-color", app.options.colors[@model.id % app.options.colors.length])
 
     @$("input").val(@model.get("title"))
     @$("label").html(@model.get("title"))
@@ -57,7 +57,7 @@ class PanelView extends Backbone.View
   activate : ->
     @$el.addClass("active")
     @editorView.resize()
-    @editorView.focus()
+    # @editorView.focus()
 
 
   deactivate : ->

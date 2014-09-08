@@ -3,6 +3,23 @@
 
 @import "_variables.less";
 
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 300;
+  src: local('Source Code Pro Light'), local('SourceCodePro-Light'), url("../fonts/SourceCodePro-Light.otf.woff") format('woff');
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 600;
+  src: local('Source Code Pro Semibold'), local('SourceCodePro-Semibold'), url("../fonts/SourceCodePro-Semibold.otf.woff") format('woff');
+}
+
+html, body, #main, .layout-view {
+  height: 100%;
+}
+
 .layout-view {
   display: flex;
 
@@ -17,10 +34,6 @@
     color: #000;
     text-decoration: none;
   }
-}
-
-html, body, #main, .layout-view {
-  height: 100%;
 }
 
 .panel-view {

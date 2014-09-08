@@ -21,16 +21,13 @@ class LayoutView extends Backbone.View
 
   initialize : ->
 
-    @collection = new Backbone.Collection(_.times(5, (i) ->
+    @collection = new Backbone.Collection(_.times(app.options.panelCount, (i) ->
       model = new NoteModel(id : i)
       model.fetch()
       return model
     ))
 
     @activeIndex = -1
-    @listenTo(app, "panel:activate", (panel) ->
-      @setActive(panel.number)
-    )
 
 
   render : ->
@@ -45,12 +42,15 @@ class LayoutView extends Backbone.View
       @$el.append(view.render().el)
     )
 
+    if @panels.length > 0
+      @setActive(0)
+
     Hammer(document.body).on("swiperight", =>
       if window.innerWidth <= SCREEN_XS_MAX and @activeIndex > 0
         app.router.navigate("/panel/#{@activeIndex - 1}", trigger : true)
     )
     Hammer(document.body).on("swipeleft", =>
-      if window.innerWidth <= SCREEN_XS_MAX and @activeIndex < 4 # HACK
+      if window.innerWidth <= SCREEN_XS_MAX and @activeIndex < (app.options.panelCount - 1)
         app.router.navigate("/panel/#{@activeIndex + 1}", trigger : true)
     )
 
