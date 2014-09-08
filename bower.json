@@ -21,7 +21,8 @@
     "syphon": "scalableminds/syphon#~0.4.1",
     "font-awesome": "~4.1.0",
     "marionette": "~2.0.3",
-    "ace-builds": "~1.1.6"
+    "ace-builds": "~1.1.6",
+    "mousetrap": "~1.4.6"
   },
   "resolutions": {
     "jquery": "~2.1.1"

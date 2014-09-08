@@ -12,8 +12,12 @@ class Router extends UberRouter
   routes :
     "" : "home"
     "panel/:panel_number" : "panel"
+    "settings" : "settings"
 
   whitelist : []
 
   panel : (number) ->
     app.view.setActive(number)
+
+
+  settings : ->

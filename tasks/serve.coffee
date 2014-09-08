@@ -5,5 +5,6 @@ module.exports = (gulp, $, options) ->
       .pipe($.webserver(
         fallback : options.serve.defaultFile
         port : options.serve.port
+        host : "0.0.0.0"
       ))
   )

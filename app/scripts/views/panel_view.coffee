@@ -1,5 +1,6 @@
 ### define
 backbone : Backbone
+mousetrap : Mousetrap
 app : app
 ./editor_view : EditorView
 ###
@@ -35,6 +36,11 @@ class PanelView extends Backbone.View
 
     @listenTo(@editorView, "change", (value) ->
       @model.save("contents", value)
+    )
+
+    Mousetrap.bind(["command+#{@model.id + 1}", "ctrl+#{@model.id + 1}"], (event) =>
+      event.preventDefault()
+      app.router.navigate("/panel/#{@model.id}", trigger : true)
     )
 
     return this

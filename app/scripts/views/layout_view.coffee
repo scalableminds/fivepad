@@ -1,15 +1,31 @@
 ### define
 backbone : Backbone
 lodash : _
+hammer : Hammer
 ./panel_view : PanelView
 models/note_model : NoteModel
 ###
+
+SCREEN_XS_MAX = 767
 
 class LayoutView extends Backbone.View
 
   className : "layout-view"
 
+  template : """
+    <a class="settings-button" href="/settings">&#9881;</a>
+  """
+
+  events :
+    "click .settings-button" : "handleSettingsButtonClick"
+
   initialize : ->
+
+    @collection = new Backbone.Collection(_.times(5, (i) ->
+      model = new NoteModel(id : i)
+      model.fetch()
+      return model
+    ))
 
     @activeIndex = -1
     @listenTo(app, "panel:activate", (panel) ->
@@ -19,11 +35,7 @@ class LayoutView extends Backbone.View
 
   render : ->
 
-    @collection = new Backbone.Collection(_.times(5, (i) ->
-      model = new NoteModel(id : i)
-      model.fetch()
-      return model
-    ))
+    @$el.append(@template)
 
     @panels = @collection.map((model, i) ->
       new PanelView(model : model)
@@ -33,12 +45,21 @@ class LayoutView extends Backbone.View
       @$el.append(view.render().el)
     )
 
+    Hammer(document.body).on("swiperight", =>
+      if window.innerWidth <= SCREEN_XS_MAX and @activeIndex > 0
+        app.router.navigate("/panel/#{@activeIndex - 1}", trigger : true)
+    )
+    Hammer(document.body).on("swipeleft", =>
+      if window.innerWidth <= SCREEN_XS_MAX and @activeIndex < 4 # HACK
+        app.router.navigate("/panel/#{@activeIndex + 1}", trigger : true)
+    )
 
     return this
 
 
   setActive : (index) ->
 
+    index = parseInt(index)
     if index == @activeIndex
       return
 
@@ -50,3 +71,10 @@ class LayoutView extends Backbone.View
 
     @activeIndex = index
     return
+
+
+  handleSettingsButtonClick : (event) ->
+
+    event.preventDefault()
+    app.router.navigate("/settings", trigger : true)
+

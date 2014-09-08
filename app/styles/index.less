@@ -3,16 +3,20 @@
 
 @import "_variables.less";
 
-h1 {
-  font-size: 50*2px;
-}
-
-body {
-  background: #f2f2f2;
-}
-
 .layout-view {
   display: flex;
+
+  .settings-button {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
+    padding: 15px;
+
+    font-size: 30px;
+    line-height: 1;
+    color: #000;
+    text-decoration: none;
+  }
 }
 
 html, body, #main, .layout-view {
@@ -117,3 +121,16 @@ html, body, #main, .layout-view {
   }
 }
 
+@media(max-width: @screen-xs-max) {
+  .layout-view {
+    display: block;
+  }
+  .panel-view {
+    display: none;
+
+    &.active {
+      display: block;
+      width: 100%;
+    }
+  }
+}

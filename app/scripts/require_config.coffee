@@ -9,6 +9,8 @@ require.config(
     marionette : "../bower_components/marionette/lib/backbone.marionette"
     jquery : "../bower_components/jquery/dist/jquery"
     ace : "../bower_components/ace-builds/src/"
+    mousetrap : "../bower_components/mousetrap/mousetrap"
+    hammer : "../bower_components/hammerjs/hammer"
     dropbox : "https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest"
 
   map :
