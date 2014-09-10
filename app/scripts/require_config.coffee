@@ -1,4 +1,4 @@
-require.config(
+requirejs.config(
 
   baseUrl : "scripts"
   waitSeconds : 15
@@ -11,7 +11,7 @@ require.config(
     ace : "../bower_components/ace-builds/src/"
     mousetrap : "../bower_components/mousetrap/mousetrap"
     hammer : "../bower_components/hammerjs/hammer"
-    dropbox : "lib/dropbox-datastores-1.1.0"
+    dropbox : "./lib/dropbox-datastores-1.1.0"
 
   map :
     backbone :

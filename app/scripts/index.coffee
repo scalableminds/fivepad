@@ -1,17 +1,19 @@
 define( "app", ["marionette"], (Marionette) -> new Marionette.Application() )
 
-require [
+requirejs [
   "jquery"
   "lodash"
   "app"
   "./router"
   "views/layout_view"
   "services/dropbox_service"
-], ($, _, app, Router, LayoutView, DropboxService) ->
+  "services/storage_service"
+], ($, _, app, Router, LayoutView, DropboxService, StorageService) ->
 
   window.app = app
 
   app.addInitializer( ->
+    app.storageService = new StorageService()
     app.dropboxService = new DropboxService()
 
     app.router = new Router()
@@ -29,7 +31,7 @@ require [
         "#F56991"
       ]
       fontFamily : "Source Code Pro"
-      fontSize : "16pt"
+      fontSize : "14pt"
       fontWeight : 300
     }
   )
@@ -40,6 +42,8 @@ require [
     $("#main").append(app.view.render().el)
 
     Backbone.history.start()
+
+    window.require = window.nodereq
   )
 
   $ ->
