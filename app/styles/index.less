@@ -21,6 +21,7 @@ html, body, #main, .layout-view {
 }
 
 .layout-view {
+  display: -webkit-flex;
   display: flex;
 
   .settings-button {
@@ -42,8 +43,11 @@ html, body, #main, .layout-view {
   padding: 10px;
   overflow: hidden;
 
+  display: -webkit-flex;
   display: flex;
+  -webkit-flex-direction: column;
   flex-direction: column;
+  -webkit-justify-content: center;
   justify-content: center;
 
   .editor-view {
@@ -51,6 +55,7 @@ html, body, #main, .layout-view {
   }
   .title-label {
     display: block;
+    -webkit-flex: 1;
     flex: 1;
     font-weight: 500;
     font-size: 20px;
@@ -71,6 +76,7 @@ html, body, #main, .layout-view {
 
   &.active {
     width: 60%;
+    -webkit-flex: auto;
     flex: auto;
 
     .title-label {
@@ -142,7 +148,8 @@ html, body, #main, .layout-view {
     display: none;
 
     &.active {
-      display: block;
+      display: -webkit-flex;
+      display: flex;
       width: 100%;
     }
   }

@@ -38,6 +38,13 @@ class PanelView extends Backbone.View
       @model.save("contents", value)
     )
 
+    @listenTo(@model, "forceChange:contents", ->
+      @editorView.setValue(@model.get("contents"))
+    )
+    @listenTo(@model, "change:title", ->
+      @$("label").html(@model.get("title"))
+    )
+
     Mousetrap.bind(["command+#{@model.id + 1}", "ctrl+#{@model.id + 1}"], (event) =>
       event.preventDefault()
       app.router.navigate("/panel/#{@model.id}", trigger : true)
@@ -52,7 +59,7 @@ class PanelView extends Backbone.View
 
   handleChangeTitle : ->
     @model.save("title", @$("input").val())
-    @$("label").html(@model.get("title"))
+
 
   activate : ->
     @$el.addClass("active")

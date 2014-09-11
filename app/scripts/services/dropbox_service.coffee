@@ -2,6 +2,7 @@
 dropbox : Dropbox
 lodash : _
 app : app
+views/authorize_view : AuthorizeView
 ###
 
 # if not window.Dropbox?
@@ -14,10 +15,18 @@ class DropboxService
     @isReady = false
 
     @client = new Dropbox.Client({ key: "hlzfj39a4cfzpri" })
-    @client.authDriver(
-      new Dropbox.AuthDriver.Popup({
-        receiverUrl: "https://5iler.com/oauth_receiver.html" # HACK
-      }))
+    if cordova?
+      @client.authDriver(
+        new Dropbox.AuthDriver.Popup({
+          receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
+        }))
+      @client._driver.openWindow = (url) ->
+        AuthorizeView.show(url)
+
+    else
+      @client.authDriver(new Dropbox.AuthDriver.Cordova())
+
+
 
     @client.authenticate({ interactive : false })
     if @client.isAuthenticated()
@@ -46,9 +55,19 @@ class DropboxService
       else
         @datastore = datastore
         @notesTable = @datastore.getTable("notes")
-        @datastore.syncStatusChanged.addListener((event) =>
+        @datastore.syncStatusChanged.addListener( =>
           if not @datastore.getSyncStatus().uploading
-            app.trigger("dropboxService:synced", { originalEvent : event })
+            app.trigger("dropboxService:synced")
+            window.localStorage.setItem("scratchpad-lastSynced", (new Date()).toJSON())
+          return
+        )
+        @datastore.recordsChanged.addListener((changes) =>
+          if changes.isLocal()
+            app.trigger("dropboxService:recordsChangedLocal", changes)
+          else
+            app.trigger("dropboxService:recordsChangedRemote", changes)
+
+          app.trigger("dropboxService:recordsChanged", changes)
           return
         )
         if not @isReady
@@ -70,4 +89,4 @@ class DropboxService
   getNote : (id) ->
 
     if @isReady
-      return @notesTable.get("note-#{id}")?.getFields()
+      return @notesTable.get("note-#{id}")

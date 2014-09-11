@@ -3,7 +3,6 @@ backbone : Backbone
 lodash : _
 hammer : Hammer
 ./panel_view : PanelView
-models/note_model : NoteModel
 ###
 
 SCREEN_XS_MAX = 767
@@ -21,12 +20,6 @@ class LayoutView extends Backbone.View
 
   initialize : ->
 
-    @collection = new Backbone.Collection(_.times(app.options.panelCount, (i) ->
-      model = new NoteModel(id : i)
-      model.fetch()
-      return model
-    ))
-
     @activeIndex = -1
 
 
@@ -34,12 +27,10 @@ class LayoutView extends Backbone.View
 
     @$el.append(@template)
 
-    @panels = @collection.map((model, i) ->
-      new PanelView(model : model)
-    )
-
-    @panels.forEach((view) =>
+    @panels = app.models.map((model, i) =>
+      view = new PanelView(model : model)
       @$el.append(view.render().el)
+      return view
     )
 
     if @panels.length > 0

@@ -6,14 +6,13 @@ requirejs [
   "app"
   "./router"
   "views/layout_view"
+  "models/note_model"
   "services/dropbox_service"
-  "services/storage_service"
-], ($, _, app, Router, LayoutView, DropboxService, StorageService) ->
+], ($, _, app, Router, LayoutView, NoteModel, DropboxService) ->
 
   window.app = app
 
   app.addInitializer( ->
-    app.storageService = new StorageService()
     app.dropboxService = new DropboxService()
 
     app.router = new Router()
@@ -34,6 +33,22 @@ requirejs [
       fontSize : "14pt"
       fontWeight : 300
     }
+  )
+
+  app.addInitializer( ->
+    app.models = new Backbone.Collection(_.times(app.options.panelCount, (i) ->
+      model = new NoteModel(id : i)
+      model.fetch()
+      return model
+    ))
+
+    app.export = ->
+      blob = new Blob([ JSON.stringify(app.models.toJSON()) ], { type : "application/octet-stream" })
+      url = URL.createObjectURL(blob)
+      a = $("<a>", href : url, download : "scratchpad-export.json")
+      a.appendTo(document.body)
+      _.defer -> a.click()
+      return
   )
 
   app.on("start", ->
