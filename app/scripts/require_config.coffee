@@ -8,7 +8,7 @@ requirejs.config(
     backbone : "../bower_components/backbone/backbone"
     marionette : "../bower_components/marionette/lib/backbone.marionette"
     jquery : "../bower_components/jquery/dist/jquery"
-    ace : "../bower_components/ace-builds/src/"
+    codemirror : "../bower_components/codemirror/lib/codemirror"
     mousetrap : "../bower_components/mousetrap/mousetrap"
     hammer : "../bower_components/hammerjs/hammer"
     dropbox : "./lib/dropbox-datastores-1.1.0"

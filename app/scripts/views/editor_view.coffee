@@ -1,7 +1,6 @@
 ### define
 backbone : Backbone
-ace/ace : Ace
-lib/empty_theme : EmptyTheme
+lib/codemirror : CodeMirror
 app : app
 ###
 
@@ -15,34 +14,33 @@ class EditorView extends Backbone.View
 
 
   render : ->
-    @$el.css(
-      fontFamily : app.options.fontFamily
-      fontSize : app.options.fontSize
-      fontWeight : app.options.fontWeight
-    )
 
-    @editor = Ace.edit(@el)
-    @editor.setTheme(EmptyTheme)
-    @editor.getSession().setMode("ace/mode/markdown")
-    @editor.renderer.setShowGutter(false)
-    @editor.renderer.setShowPrintMargin(false)
-    @editor.getSession().setUseWrapMode(true)
-    @editor.getSession().on("change", @handleValueChange.bind(this))
+    @editor = CodeMirror(@el, {
+      mode : "markdown"
+      theme : "empty"
+      lineNumbers : false
+      lineWrapping : true
+      viewportMargin : Infinity
+      extraKeys: {
+        "Enter": "newlineAndIndentContinueMarkdownList"
+      }
+    })
+    @editor.on("change", @handleValueChange.bind(this))
 
     return this
 
 
   handleValueChange : ->
-    @trigger("change", @editor.getSession().getValue(), this)
+    @trigger("change", @editor.getValue(), this)
     return
 
 
   setValue : (value) ->
-    @editor.getSession().setValue(value)
+    @editor.setValue(value)
     return
 
   resize : ->
-    @editor.resize()
+    @editor.refresh()
 
   focus : ->
     @editor.focus()

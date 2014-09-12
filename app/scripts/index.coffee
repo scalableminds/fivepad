@@ -29,9 +29,6 @@ requirejs [
         "#FF9F80"
         "#F56991"
       ]
-      fontFamily : "Source Code Pro"
-      fontSize : "14pt"
-      fontWeight : 300
     }
   )
 

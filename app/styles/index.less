@@ -1,5 +1,6 @@
 @import "bower_components/bootstrap/less/bootstrap.less";
 @import "bower_components/font-awesome/less/font-awesome.less";
+@import (inline) "bower_components/codemirror/lib/codemirror.css";
 
 @import "_variables.less";
 
@@ -18,14 +19,14 @@
 
 html, body, #main, .layout-view {
   height: 100%;
+  min-height: 100%;
 }
 
 .layout-view {
-  display: -webkit-flex;
-  display: flex;
+  .display-flex;
 
   .settings-button {
-    position: absolute;
+    position: fixed;
     right: 0px;
     bottom: 0px;
     padding: 15px;
@@ -38,25 +39,21 @@ html, body, #main, .layout-view {
 }
 
 .panel-view {
-  flex: 1;
+  .flex(1);
   height: 100%;
   padding: 10px;
   overflow: hidden;
 
-  display: -webkit-flex;
-  display: flex;
-  -webkit-flex-direction: column;
-  flex-direction: column;
-  -webkit-justify-content: center;
-  justify-content: center;
+  .display-flex;
+  .flex-direction(column);
+  .justify-content(center);
 
   .editor-view {
     display: none;
   }
   .title-label {
     display: block;
-    -webkit-flex: 1;
-    flex: 1;
+    .flex(1);
     font-weight: 500;
     font-size: 20px;
   }
@@ -76,8 +73,7 @@ html, body, #main, .layout-view {
 
   &.active {
     width: 60%;
-    -webkit-flex: auto;
-    flex: auto;
+    .flex(auto);
 
     .title-label {
       display: none;
@@ -101,46 +97,59 @@ html, body, #main, .layout-view {
   max-width: 830px;
   margin: 0 auto;
   height: 600px;
-  flex: 1;
+  .flex(1);
+  position: relative;
+
+  .CodeMirror {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: auto;
+
+    background-color: transparent;
+    font-family : 'Source Code Pro';
+    font-size : 18px;
+    font-weight : 300;
+    line-height : 1.8;
+
+  }
+
 }
 
-.ace-empty {
-  line-height: 1.8 !important;
+.cm-s-empty {
   color: #3c3c3c;
 
-  .ace_heading:not(.ace_markup) {
+  .cm-header {
     font-weight: 600;
   }
 
-  .ace_markup, .ace_function {
+  .cm-comment {
     color: #b8b8b8;
     color: rgba(0,0,0,.4);
   }
 
-  .ace_active-line {
-    background: transparent !important;
-  }
-
-  .ace_string {
-    color: #3c3c3c;
-  }
-  .ace_markup.ace_underline {
+  .cm-link {
     text-decoration: none;
   }
 
-  .ace_cursor {
-    color: #3c3c3c;
-  }
-  .ace_hidden-cursors .ace_cursor {
-    opacity: 0;
+  .cm-em {
+    font-style: normal;
   }
 
-  .ace_marker-layer .ace_selection {
+  .CodeMirror-selected {
     background: #b5d6fb;
   }
 }
 
 @media(max-width: @screen-xs-max) {
+
+  #main, .layout-view {
+    height: auto;
+    min-height: 100%;
+  }
+
   .layout-view {
     display: block;
   }
@@ -148,9 +157,23 @@ html, body, #main, .layout-view {
     display: none;
 
     &.active {
-      display: -webkit-flex;
-      display: flex;
+      .display-flex;
       width: 100%;
+      height: initial;
+      min-height: 100%;
+      overflow: auto;
+
+      .editor-view {
+        height: initial;
+      }
+      .CodeMirror {
+        position: static;
+        height: inherit;
+      }
+      .CodeMirror-scroll {
+        overflow-x: auto;
+        overflow-y: hidden;
+      }
     }
   }
 }
