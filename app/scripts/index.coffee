@@ -33,11 +33,10 @@ requirejs [
   )
 
   app.addInitializer( ->
-    app.models = new Backbone.Collection(_.times(app.options.panelCount, (i) ->
+    app.models = _.times(app.options.panelCount, (i) ->
       model = new NoteModel(id : i)
-      model.fetch()
       return model
-    ))
+    )
 
     app.export = ->
       blob = new Blob([ JSON.stringify(app.models.toJSON()) ], { type : "application/octet-stream" })
@@ -52,6 +51,7 @@ requirejs [
 
     app.view = new LayoutView()
     $("#main").append(app.view.render().el)
+    app.view.trigger("pageshow")
 
     Backbone.history.start()
 

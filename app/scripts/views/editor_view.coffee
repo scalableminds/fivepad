@@ -30,8 +30,9 @@ class EditorView extends Backbone.View
     return this
 
 
-  handleValueChange : ->
-    @trigger("change", @editor.getValue(), this)
+  handleValueChange : (editor, options) ->
+    if options.origin != "setValue"
+      @trigger("change", @editor.getValue(), this)
     return
 
 
@@ -39,7 +40,7 @@ class EditorView extends Backbone.View
     @editor.setValue(value)
     return
 
-  resize : ->
+  refresh : ->
     @editor.refresh()
 
   focus : ->

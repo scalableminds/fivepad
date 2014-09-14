@@ -6,3 +6,4 @@ bower_components
 xcuserdata
 *.xcworkspace
 Atom.app
+*.log

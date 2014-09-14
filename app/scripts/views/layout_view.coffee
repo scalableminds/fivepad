@@ -27,13 +27,13 @@ class LayoutView extends Backbone.View
 
     @$el.append(@template)
 
-    @panels = app.models.map((model, i) =>
+    @panelViews = app.models.map((model, i) =>
       view = new PanelView(model : model)
       @$el.append(view.render().el)
       return view
     )
 
-    if @panels.length > 0
+    if @panelViews.length > 0
       @setActive(0)
 
     Hammer(document.body).on("swiperight", =>
@@ -43,6 +43,10 @@ class LayoutView extends Backbone.View
     Hammer(document.body).on("swipeleft", =>
       if window.innerWidth <= SCREEN_XS_MAX and @activeIndex < (app.options.panelCount - 1)
         app.router.navigate("/panel/#{@activeIndex + 1}", trigger : true)
+    )
+
+    @listenTo(this, "pageshow", ->
+      @panelViews.forEach((panelView) -> panelView.trigger("pageshow"))
     )
 
     return this
@@ -55,10 +59,10 @@ class LayoutView extends Backbone.View
       return
 
     if @activeIndex >= 0
-      @panels[@activeIndex].deactivate()
+      @panelViews[@activeIndex].deactivate()
 
     if index >= 0
-      @panels[index].activate()
+      @panelViews[index].activate()
 
     @activeIndex = index
     return

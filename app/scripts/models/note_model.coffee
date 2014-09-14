@@ -1,110 +1,108 @@
 ### define
+lodash : _
 backbone : Backbone
 app : app
 ###
 
-class NoteModel extends Backbone.Model
 
-  LOCALSTORAGE_KEY : "scratchpad-notemodel"
+class NoteModel
 
-  defaults :
-    title : ""
-    contents : ""
-    _lastUpdated : 0
-    _isSynced : false
+  LOCALSTORAGE_KEY : "scratchpad-note"
 
-  initialize : ->
-
-    storedString = window.localStorage.getItem("scratchpad-note-#{@id}")
-    if storedString
-      storedObj = JSON.parse(storedString)
-    else
-      storedObj = {}
-    @set(storedObj)
-
+  constructor : (options) ->
+    _.extend(this, Backbone.Events)
+    @id = options.id
+    @attributes = {
+      _syncedRevision : 0
+      _revision : 0
+      title : ""
+      contents : ""
+    }
+    @load()
 
     app.on("dropboxService:recordsChangedRemote", =>
-      console.log(@id, "drobbox change")
-      @mergeDropbox(app.dropboxService.getNote(@id))
+      console.log(@id, "dropbox change")
+      @sync()
     )
     app.on("dropboxService:synced", =>
-      @save("_isSynced", true)
+      console.log(@id, "dropbox synced", @pull()._revision)
+      @attributes._syncedRevision = @pull()._revision
+      @persist()
     )
     app.on("dropboxService:ready", =>
-      @mergeDropbox(app.dropboxService.getNote(@id))
+      console.log(@id, "dropbox ready")
+      @sync()
     )
 
-    @listenTo(this, "change:title", @markDirty)
-    @listenTo(this, "change:contents", @markDirty)
 
+  set : (key, value, options = {}) ->
 
-  markDirty : ->
-    @set("_lastUpdated", Date.now())
-    @set("_isSynced", false)
-
-
-  fetch : ->
+    if key of @attributes and @attributes[key] != value
+      @attributes[key] = value
+      @attributes._revision += 1
+      @persist()
+      if not options.silent
+        @trigger("change", this)
+        @trigger("change:#{key}", this, value)
+      @sync()
 
     return
 
 
-  mergeDropbox : (remote) ->
+  get : (key) ->
+    return @attributes[key]
 
-    localObj = @toJSON()
-    remoteObj = remote.getFields()
 
-    if localObj._lastSynced < remoteObj._lastUpdated
-      alert("Conflict!!!")
+  sync : ->
+    if remote = @pull()
 
-      mergedObj = {
-        title :
-          if localObj.title == remoteObj.title
-            localObj.title
-          else
-            "#{localObj.title} || #{remoteObj.title}"
-        contents :
-          if localObj.contents == remoteObj.contents
-            localObj.contents
-          else
-            """
-            >>> local
-            #{localObj.contents}
-
-            >>> remote
-            #{remoteObj.contents}
-            """
-      }
-
-      @save(mergedObj)
-    else
-      if localObj._lastUpdated > remoteObj._lastUpdated
-        console.log(@id, "resolve local")
-        @saveDropbox()
-      else if localObj._lastUpdated < remoteObj._lastUpdated
-        console.log(@id, "resolve remote")
-        @set(remote.getFields())
-        @trigger("forceChange:contents")
+      local = @attributes
+      if local._revision > local._syncedRevision and
+         remote._revision > local._syncedRevision and
+         not app.dropboxService.isTransient()
+        console.log(@id, "merge conflict", app.dropboxService.isTransient())
+        alert("Conflict in #{@id} #{local.title}! #{local._revision} #{local._syncedRevision} #{remote._revision}")
       else
-        console.log(@id, "resolve none")
+        @attributes._syncedRevision = remote._revision
+        @persist()
+
+        if local._revision > remote._revision
+          console.log(@id, "merge local")
+          @push()
+        else if local._revision < remote._revision
+          console.log(@id, "merge remote")
+          _.extend(@attributes, remote)
+          @trigger("reset")
+          @persist()
+        else
+          console.log(@id, "merge equal")
+
+    else
+      @push()
 
 
-  save : ->
-    @set.apply(this, arguments)
-    @saveLocal()
-    if @get("_isSynced") == false
-      @saveDropbox()
+  toJSON : ->
+    return _.clone(@attributes)
+
+
+  push : ->
+    transferObj = _.omit(@attributes, "_syncedRevision")
+    app.dropboxService.updateNote(@id, transferObj)
     return
 
 
-  saveLocal : ->
-    window.localStorage.setItem("scratchpad-note-#{@id}", JSON.stringify(@toJSON()))
+  pull : ->
+    return app.dropboxService.getNote(@id)
+
+
+  persist : ->
+    storedObj = _.pick(@attributes, ["_revision", "_syncedRevision", "title", "contents"])
+    window.localStorage.setItem("#{@LOCALSTORAGE_KEY}-#{@id}", JSON.stringify(storedObj))
     return
 
-  saveDropbox : ->
-    obj = {
-      title : @get("title")
-      contents : @get("contents")
-      _lastUpdated : @get("_lastUpdated")
-    }
-    app.dropboxService.updateNote(@id, obj)
+
+  load : ->
+    storedString = window.localStorage.getItem("#{@LOCALSTORAGE_KEY}-#{@id}")
+    if storedString
+      _.extend(@attributes, JSON.parse(storedString))
     return

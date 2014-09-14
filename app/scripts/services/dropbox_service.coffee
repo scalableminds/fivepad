@@ -54,11 +54,15 @@ class DropboxService
         console.error("dropboxService:datastoreError", error)
       else
         @datastore = datastore
+
         @notesTable = @datastore.getTable("notes")
+
         @datastore.syncStatusChanged.addListener( =>
-          if not @datastore.getSyncStatus().uploading
+          console.log("dropbox syncing", @datastore.getSyncStatus().uploading)
+          if @datastore.getSyncStatus().uploading
+            app.trigger("dropboxService:syncing")
+          else
             app.trigger("dropboxService:synced")
-            window.localStorage.setItem("scratchpad-lastSynced", (new Date()).toJSON())
           return
         )
         @datastore.recordsChanged.addListener((changes) =>
@@ -70,12 +74,16 @@ class DropboxService
           app.trigger("dropboxService:recordsChanged", changes)
           return
         )
+
         if not @isReady
           @isReady = true
           app.trigger("dropboxService:ready", this)
     )
     return this
 
+
+  isTransient : ->
+    return @datastore?.getSyncStatus().uploading
 
   updateNote : (id, obj) ->
 
@@ -89,4 +97,6 @@ class DropboxService
   getNote : (id) ->
 
     if @isReady
-      return @notesTable.get("note-#{id}")
+      return @notesTable.get("note-#{id}")?.getFields()
+
+

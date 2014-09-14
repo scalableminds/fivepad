@@ -35,13 +35,17 @@ class PanelView extends Backbone.View
     @editorView.setValue(@model.get("contents"))
 
     @listenTo(@editorView, "change", (value) ->
-      @model.save("contents", value)
+      @model.set("contents", value)
     )
 
-    @listenTo(@model, "forceChange:contents", ->
+    @listenTo(this, "pageshow", ->
+      @editorView.refresh()
+    )
+
+    @listenTo(@model, "reset", ->
       @editorView.setValue(@model.get("contents"))
     )
-    @listenTo(@model, "change:title", ->
+    @listenTo(@model, "change:title reset", ->
       @$("label").html(@model.get("title"))
     )
 
@@ -58,15 +62,15 @@ class PanelView extends Backbone.View
 
 
   handleChangeTitle : ->
-    @model.save("title", @$("input").val())
+    @model.set("title", @$("input").val())
 
 
   activate : ->
     @$el.addClass("active")
-    @editorView.resize()
+    @editorView.refresh()
     # @editorView.focus()
 
 
   deactivate : ->
     @$el.removeClass("active")
-    @editorView.resize()
+    @editorView.refresh()
