@@ -1,7 +1,7 @@
 {
   "src": {
     "dir": "app",
-    "copy": ["app/index.html", "app/package.json", "app/main.js", "app/fonts/*"],
+    "copy": ["app/index.html", "app/package.json", "app/oauth_receiver.html", "app/main.js", "app/fonts/*"],
     "scripts": "app/scripts/**/*.{js,coffee}",
     "styles": "app/styles/index.less",
     "styles_paths": [
