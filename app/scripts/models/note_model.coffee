@@ -1,6 +1,7 @@
 ### define
 lodash : _
 backbone : Backbone
+diff : Diff
 app : app
 ###
 
@@ -61,7 +62,16 @@ class NoteModel
          remote._revision > local._syncedRevision and
          not app.dropboxService.isTransient()
         console.log(@id, "merge conflict", app.dropboxService.isTransient())
-        alert("Conflict in #{@id} #{local.title}! #{local._revision} #{local._syncedRevision} #{remote._revision}")
+
+        if not confirm("Merge conflict in Panel '#{local.title}'. Do you wish to keep your local changes?")
+          @attributes.title = remote.title
+          @attributes.contents = remote.contents
+
+        @attributes._revision = Math.max(local._revision, remote._revision) + 1
+        @persist()
+        @push()
+        @trigger("reset")
+
       else
         @attributes._syncedRevision = remote._revision
         @persist()

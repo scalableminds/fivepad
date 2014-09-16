@@ -52,6 +52,8 @@ class DropboxService
     datastoreManager.openDefaultDatastore((error, datastore) =>
       if error
         console.error("dropboxService:datastoreError", error)
+        @initDatastore()
+
       else
         @datastore = datastore
 

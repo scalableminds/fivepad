@@ -11,6 +11,7 @@ requirejs.config(
     codemirror : "../bower_components/codemirror/lib/codemirror"
     mousetrap : "../bower_components/mousetrap/mousetrap"
     hammer : "../bower_components/hammerjs/hammer"
+    diff : "../bower_components/jsdiff/diff"
     dropbox : "./lib/dropbox-datastores-1.1.0"
 
   map :
@@ -25,5 +26,7 @@ requirejs.config(
   shim :
     dropbox :
       exports : "Dropbox"
+    diff :
+      exports : "JsDiff"
 
 )

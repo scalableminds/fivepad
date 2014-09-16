@@ -27,8 +27,7 @@ class PanelView extends Backbone.View
     @$el.addClass("number-#{@model.id}")
     @$el.css("background-color", app.options.colors[@model.id % app.options.colors.length])
 
-    @$("input").val(@model.get("title"))
-    @$("label").html(@model.get("title"))
+    @updateTitle()
 
     @editorView = new EditorView(el : @$(".editor-view"))
     @editorView.render()
@@ -44,9 +43,10 @@ class PanelView extends Backbone.View
 
     @listenTo(@model, "reset", ->
       @editorView.setValue(@model.get("contents"))
+      @updateTitle()
     )
-    @listenTo(@model, "change:title reset", ->
-      @$("label").html(@model.get("title"))
+    @listenTo(@model, "change:title", ->
+      @updateTitle()
     )
 
     Mousetrap.bind(["command+#{@model.id + 1}", "ctrl+#{@model.id + 1}"], (event) =>
@@ -56,6 +56,10 @@ class PanelView extends Backbone.View
 
     return this
 
+
+  updateTitle : ->
+    @$("input").val(@model.get("title"))
+    @$("label").html(@model.get("title"))
 
   handleClick : ->
     app.router.navigate("/panel/#{@model.id}", trigger : true)

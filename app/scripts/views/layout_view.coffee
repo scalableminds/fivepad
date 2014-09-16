@@ -12,7 +12,7 @@ class LayoutView extends Backbone.View
   className : "layout-view"
 
   template : """
-    <a class="settings-button" href="/settings">&#9881;</a>
+    <a class="settings-button" href="/settings"><span class="connection-label">Offline</span> &#9881;</a>
   """
 
   events :
@@ -47,6 +47,16 @@ class LayoutView extends Backbone.View
 
     @listenTo(this, "pageshow", ->
       @panelViews.forEach((panelView) -> panelView.trigger("pageshow"))
+    )
+
+    @listenTo(app, "dropboxService:syncing", ->
+      @$(".connection-label").html("Syncing...")
+    )
+    @listenTo(app, "dropboxService:synced", ->
+      @$(".connection-label").html("Synced")
+    )
+    @listenTo(app, "dropboxService:ready", ->
+      @$(".connection-label").html("Synced")
     )
 
     return this
