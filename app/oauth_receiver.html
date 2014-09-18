@@ -8,7 +8,7 @@
     <script type="text/javascript">
       var opener = window.opener;
       if (window.parent !== window.top) {
-        opener ||= window.parent;
+        opener = opener || window.parent;
       }
 
       var _postMessage = opener.postMessage;
