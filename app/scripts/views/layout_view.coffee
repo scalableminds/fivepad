@@ -12,11 +12,11 @@ class LayoutView extends Backbone.View
   className : "layout-view"
 
   template : """
-    <a class="settings-button" href="/settings"><span class="connection-label">Offline</span> &#9881;</a>
+    <div class="connection-label"></div>
   """
 
   events :
-    "click .settings-button" : "handleSettingsButtonClick"
+    "click .connection-label" : "handleConnectionLabelClick"
 
   initialize : ->
 
@@ -49,17 +49,30 @@ class LayoutView extends Backbone.View
       @panelViews.forEach((panelView) -> panelView.trigger("pageshow"))
     )
 
-    @listenTo(app, "dropboxService:syncing", ->
-      @$(".connection-label").html("Syncing...")
-    )
-    @listenTo(app, "dropboxService:synced", ->
-      @$(".connection-label").html("Synced")
-    )
-    @listenTo(app, "dropboxService:ready", ->
-      @$(".connection-label").html("Synced")
-    )
+    @listenTo(app, "dropboxService:syncing", @updateConnectionLabel)
+    @listenTo(app, "dropboxService:authenticated", @updateConnectionLabel)
+    @listenTo(app, "dropboxService:synced", @updateConnectionLabel)
+    @listenTo(app, "dropboxService:ready", @updateConnectionLabel)
+
+    @updateConnectionLabel()
 
     return this
+
+
+  updateConnectionLabel : ->
+
+    if app.dropboxService.isAuthenticated()
+      if app.dropboxService.isReady
+        if app.dropboxService.isTransient()
+          connectionLabel = "Syncing..."
+        else
+          connectionLabel = "Synced"
+      else
+        connectionLabel = "Offline"
+    else
+      connectionLabel = "Connect with Dropbox."
+
+    @$(".connection-label").html(connectionLabel)
 
 
   setActive : (index) ->
@@ -78,8 +91,10 @@ class LayoutView extends Backbone.View
     return
 
 
-  handleSettingsButtonClick : (event) ->
+  handleConnectionLabelClick : (event) ->
 
     event.preventDefault()
-    app.router.navigate("/settings", trigger : true)
+    if not app.dropboxService.isAuthenticated()
+      app.dropboxService.authenticate()
+    return
 

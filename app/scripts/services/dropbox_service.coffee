@@ -16,21 +16,20 @@ class DropboxService
 
     @client = new Dropbox.Client({ key: "hlzfj39a4cfzpri" })
     if cordova?
+      @client.authDriver(new Dropbox.AuthDriver.Cordova())
+
+    else
       @client.authDriver(
         new Dropbox.AuthDriver.Popup({
           receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
         }))
-      @client._driver.openWindow = (url) ->
-        AuthorizeView.show(url)
-
-    else
-      @client.authDriver(new Dropbox.AuthDriver.Cordova())
-
-
+      # @client._driver.openWindow = (url) ->
+      #   AuthorizeView.show(url)
 
     @client.authenticate({ interactive : false })
-    if @client.isAuthenticated()
+    if @isAuthenticated()
       @initDatastore()
+      app.trigger("dropboxService:authenticated")
 
 
   authenticate : ->
@@ -41,6 +40,7 @@ class DropboxService
         console.error("dropboxService:authenticationError", error)
 
       else
+        app.trigger("dropboxService:authenticated")
         @initDatastore()
     )
     return this
@@ -84,8 +84,12 @@ class DropboxService
     return this
 
 
+  isAuthenticated : ->
+    return @client.isAuthenticated()
+
   isTransient : ->
     return @datastore?.getSyncStatus().uploading
+
 
   updateNote : (id, obj) ->
 
