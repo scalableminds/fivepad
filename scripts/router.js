@@ -17,8 +17,7 @@
 
       Router.prototype.routes = {
         "": "home",
-        "panel/:panel_number": "panel",
-        "settings": "settings"
+        "panel/:panel_number": "panel"
       };
 
       Router.prototype.whitelist = [];
@@ -26,8 +25,6 @@
       Router.prototype.panel = function(number) {
         return app.view.setActive(number);
       };
-
-      Router.prototype.settings = function() {};
 
       return Router;
 

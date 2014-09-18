@@ -14,10 +14,10 @@
 
       LayoutView.prototype.className = "layout-view";
 
-      LayoutView.prototype.template = "<a class=\"settings-button\" href=\"/settings\"><span class=\"connection-label\">Offline</span> &#9881;</a>";
+      LayoutView.prototype.template = "<div class=\"connection-label\"></div>";
 
       LayoutView.prototype.events = {
-        "click .settings-button": "handleSettingsButtonClick"
+        "click .connection-label": "handleConnectionLabelClick"
       };
 
       LayoutView.prototype.initialize = function() {
@@ -62,16 +62,30 @@
             return panelView.trigger("pageshow");
           });
         });
-        this.listenTo(app, "dropboxService:syncing", function() {
-          return this.$(".connection-label").html("Syncing...");
-        });
-        this.listenTo(app, "dropboxService:synced", function() {
-          return this.$(".connection-label").html("Synced");
-        });
-        this.listenTo(app, "dropboxService:ready", function() {
-          return this.$(".connection-label").html("Synced");
-        });
+        this.listenTo(app, "dropboxService:syncing", this.updateConnectionLabel);
+        this.listenTo(app, "dropboxService:authenticated", this.updateConnectionLabel);
+        this.listenTo(app, "dropboxService:synced", this.updateConnectionLabel);
+        this.listenTo(app, "dropboxService:ready", this.updateConnectionLabel);
+        this.updateConnectionLabel();
         return this;
+      };
+
+      LayoutView.prototype.updateConnectionLabel = function() {
+        var connectionLabel;
+        if (app.dropboxService.isAuthenticated()) {
+          if (app.dropboxService.isReady) {
+            if (app.dropboxService.isTransient()) {
+              connectionLabel = "Syncing...";
+            } else {
+              connectionLabel = "Synced";
+            }
+          } else {
+            connectionLabel = "Offline";
+          }
+        } else {
+          connectionLabel = "Connect with Dropbox.";
+        }
+        return this.$(".connection-label").html(connectionLabel);
       };
 
       LayoutView.prototype.setActive = function(index) {
@@ -88,11 +102,11 @@
         this.activeIndex = index;
       };
 
-      LayoutView.prototype.handleSettingsButtonClick = function(event) {
+      LayoutView.prototype.handleConnectionLabelClick = function(event) {
         event.preventDefault();
-        return app.router.navigate("/settings", {
-          trigger: true
-        });
+        if (!app.dropboxService.isAuthenticated()) {
+          app.dropboxService.authenticate();
+        }
       };
 
       return LayoutView;

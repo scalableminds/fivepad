@@ -25,7 +25,11 @@
       });
       return app["export"] = function() {
         var a, blob, url;
-        blob = new Blob([JSON.stringify(app.models.toJSON())], {
+        blob = new Blob([
+          JSON.stringify(app.models.map(function(a) {
+            return a.toJSON();
+          }))
+        ], {
           type: "application/octet-stream"
         });
         url = URL.createObjectURL(blob);
@@ -35,7 +39,7 @@
         });
         a.appendTo(document.body);
         _.defer(function() {
-          return a.click();
+          return a.trigger("click");
         });
       };
     });

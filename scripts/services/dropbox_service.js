@@ -8,20 +8,18 @@
           key: "hlzfj39a4cfzpri"
         });
         if (typeof cordova !== "undefined" && cordova !== null) {
+          this.client.authDriver(new Dropbox.AuthDriver.Cordova());
+        } else {
           this.client.authDriver(new Dropbox.AuthDriver.Popup({
             receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
           }));
-          this.client._driver.openWindow = function(url) {
-            return AuthorizeView.show(url);
-          };
-        } else {
-          this.client.authDriver(new Dropbox.AuthDriver.Cordova());
         }
         this.client.authenticate({
           interactive: false
         });
-        if (this.client.isAuthenticated()) {
+        if (this.isAuthenticated()) {
           this.initDatastore();
+          app.trigger("dropboxService:authenticated");
         }
       }
 
@@ -31,6 +29,7 @@
             if (error) {
               return console.error("dropboxService:authenticationError", error);
             } else {
+              app.trigger("dropboxService:authenticated");
               return _this.initDatastore();
             }
           };
@@ -73,6 +72,10 @@
           };
         })(this));
         return this;
+      };
+
+      DropboxService.prototype.isAuthenticated = function() {
+        return this.client.isAuthenticated();
       };
 
       DropboxService.prototype.isTransient = function() {
