@@ -6,6 +6,16 @@
     </script>
     <script src="https://www.dropbox.com/static/api/dropbox-datastores-1.1-latest.js" type="text/javascript"></script>
     <script type="text/javascript">
+      var opener = window.opener;
+      if (window.parent !== window.top) {
+        opener ||= window.parent;
+      }
+
+      var _postMessage = opener.postMessage;
+      opener.postMessage = function(message) {
+        _postMessage.call(_postMessage, message, "*");
+      }
+
       Dropbox.AuthDriver.Popup.oauthReceiver();
       console.log("Dropbox has been setup!");
     </script>

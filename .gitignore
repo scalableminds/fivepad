@@ -7,3 +7,4 @@ xcuserdata
 *.xcworkspace
 Atom.app
 *.log
+.tmp
