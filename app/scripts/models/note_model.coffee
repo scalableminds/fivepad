@@ -3,6 +3,7 @@ lodash : _
 backbone : Backbone
 diff : Diff
 app : app
+jquery : $
 ###
 
 
@@ -19,6 +20,7 @@ class NoteModel
       title : ""
       contents : ""
     }
+    @loaded = $.Deferred()
     @load()
 
     app.on("dropboxService:recordsChangedRemote", =>
@@ -32,7 +34,7 @@ class NoteModel
     )
     app.on("dropboxService:ready", =>
       console.log(@id, "dropbox ready")
-      @sync()
+      @sync().then( => @trigger("reset"))
     )
 
 
@@ -55,40 +57,44 @@ class NoteModel
 
 
   sync : ->
-    if remote = @pull()
+    @loaded.then( =>
+      if remote = @pull()
 
-      local = @attributes
-      if local._revision > local._syncedRevision and
-         remote._revision > local._syncedRevision and
-         not app.dropboxService.isTransient()
-        console.log(@id, "merge conflict", app.dropboxService.isTransient())
+        local = @attributes
+        if local._revision > local._syncedRevision and
+           remote._revision > local._syncedRevision and
+           not app.dropboxService.isTransient()
+          console.log(@id, "merge conflict", app.dropboxService.isTransient())
 
-        if not confirm("Merge conflict in Panel '#{local.title}'. Do you wish to keep your local changes?")
-          @attributes.title = remote.title
-          @attributes.contents = remote.contents
+          if not confirm("Merge conflict in Panel '#{local.title}'. Do you wish to keep your local changes?")
+            @attributes.title = remote.title
+            @attributes.contents = remote.contents
 
-        @attributes._revision = Math.max(local._revision, remote._revision) + 1
-        @persist()
-        @push()
-        @trigger("reset")
+          @attributes._revision = Math.max(local._revision, remote._revision) + 1
+          @persist()
+          @push()
+          @trigger("reset")
+
+        else
+          @attributes._syncedRevision = remote._revision
+          @persist()
+
+          if local._revision > remote._revision
+            console.log(@id, "merge local")
+            @push()
+          else if local._revision < remote._revision
+            console.log(@id, "merge remote")
+            _.extend(@attributes, remote)
+            @trigger("reset")
+            @persist()
+          else
+            console.log(@id, "merge equal")
 
       else
-        @attributes._syncedRevision = remote._revision
-        @persist()
+        @push()
 
-        if local._revision > remote._revision
-          console.log(@id, "merge local")
-          @push()
-        else if local._revision < remote._revision
-          console.log(@id, "merge remote")
-          _.extend(@attributes, remote)
-          @trigger("reset")
-          @persist()
-        else
-          console.log(@id, "merge equal")
-
-    else
-      @push()
+      return
+    )
 
 
   toJSON : ->
@@ -107,12 +113,27 @@ class NoteModel
 
   persist : ->
     storedObj = _.pick(@attributes, ["_revision", "_syncedRevision", "title", "contents"])
-    window.localStorage.setItem("#{@LOCALSTORAGE_KEY}-#{@id}", JSON.stringify(storedObj))
+    if chrome?.storage?
+      obj = {}
+      obj["#{@LOCALSTORAGE_KEY}-#{@id}"] = storedObj
+      chrome.storage.local.set(obj)
+    else
+      window.localStorage.setItem("#{@LOCALSTORAGE_KEY}-#{@id}", JSON.stringify(storedObj))
+
     return
 
 
   load : ->
-    storedString = window.localStorage.getItem("#{@LOCALSTORAGE_KEY}-#{@id}")
-    if storedString
-      _.extend(@attributes, JSON.parse(storedString))
+    if chrome?.storage?
+      chrome.storage.local.get("#{@LOCALSTORAGE_KEY}-#{@id}", (item) =>
+        if item
+          _.extend(@attributes, item["#{@LOCALSTORAGE_KEY}-#{@id}"])
+        @loaded.resolve()
+      )
+
+    else
+      storedString = window.localStorage.getItem("#{@LOCALSTORAGE_KEY}-#{@id}")
+      if storedString
+        _.extend(@attributes, JSON.parse(storedString))
+      @loaded.resolve()
     return

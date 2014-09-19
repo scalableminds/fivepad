@@ -1,0 +1,17 @@
+{
+  "name": "Scratchpad",
+  "description": "My first Chrome App.",
+  "version": "0.1",
+  "manifest_version": 2,
+  "app": {
+    "background": {
+      "scripts": ["background.js"]
+    }
+  },
+  "icons": { "16": "images/favicon.png", "128": "images/favicon.png" },
+  "permissions": [
+    "storage",
+    "identity",
+    "https://www.dropbox.com/*"
+  ]
+}

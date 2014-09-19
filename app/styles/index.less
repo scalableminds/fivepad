@@ -35,6 +35,7 @@ html, body, #main, .layout-view {
     line-height: 1;
     color: #000;
     text-decoration: none;
+    cursor: pointer;
   }
 }
 
@@ -140,6 +141,34 @@ html, body, #main, .layout-view {
 
   .CodeMirror-selected {
     background: #b5d6fb;
+  }
+}
+
+.authorize-view {
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  bottom: 30px;
+  right: 30px;
+
+  background: #ddd;
+
+  .close-button {
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 20px;
+    line-height: 30px;
+    background: #fff;
+    width: 30px;
+    text-align: center;
+    border-radius: 100%;
+  }
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
   }
 }
 

@@ -2,7 +2,6 @@
 dropbox : Dropbox
 lodash : _
 app : app
-views/authorize_view : AuthorizeView
 ###
 
 # if not window.Dropbox?
@@ -18,18 +17,23 @@ class DropboxService
     if cordova?
       @client.authDriver(new Dropbox.AuthDriver.Cordova())
 
+    else if chrome?.storage?
+      @client.authDriver(new Dropbox.AuthDriver.ChromeApp())
+
     else
       @client.authDriver(
         new Dropbox.AuthDriver.Popup({
           receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
         }))
-      # @client._driver.openWindow = (url) ->
-      #   AuthorizeView.show(url)
 
-    @client.authenticate({ interactive : false })
-    if @isAuthenticated()
-      @initDatastore()
-      app.trigger("dropboxService:authenticated")
+    @client.authenticate({ interactive : false }, (error) =>
+      if error
+        console.error("dropboxService:authenticationError", error)
+
+      else if @isAuthenticated()
+        @initDatastore()
+        app.trigger("dropboxService:authenticated")
+    )
 
 
   authenticate : ->

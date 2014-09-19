@@ -7,13 +7,13 @@ app : app
 
 class PanelView extends Backbone.View
 
-  template : _.template("""
+  template : """
     <h2>
       <input type="text" class="title-input">
       <label class="title-label"></label>
     </h2>
     <div class="editor-view"></div>
-  """)
+  """
 
   className : "panel-view"
 
@@ -23,7 +23,7 @@ class PanelView extends Backbone.View
 
 
   render : ->
-    @$el.html(@template())
+    @$el.html(@template)
     @$el.addClass("number-#{@model.id}")
     @$el.css("background-color", app.options.colors[@model.id % app.options.colors.length])
 
