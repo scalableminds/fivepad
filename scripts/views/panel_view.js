@@ -11,7 +11,7 @@
         return PanelView.__super__.constructor.apply(this, arguments);
       }
 
-      PanelView.prototype.template = _.template("<h2>\n  <input type=\"text\" class=\"title-input\">\n  <label class=\"title-label\"></label>\n</h2>\n<div class=\"editor-view\"></div>");
+      PanelView.prototype.template = "<h2>\n  <input type=\"text\" class=\"title-input\">\n  <label class=\"title-label\"></label>\n</h2>\n<div class=\"editor-view\"></div>";
 
       PanelView.prototype.className = "panel-view";
 
@@ -21,7 +21,7 @@
       };
 
       PanelView.prototype.render = function() {
-        this.$el.html(this.template());
+        this.$el.html(this.template);
         this.$el.addClass("number-" + this.model.id);
         this.$el.css("background-color", app.options.colors[this.model.id % app.options.colors.length]);
         this.updateTitle();

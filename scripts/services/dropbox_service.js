@@ -1,5 +1,5 @@
 (function() {
-  define(["dropbox", "lodash", "app", "views/authorize_view"], function(Dropbox, _, app, AuthorizeView) {
+  define(["dropbox", "lodash", "app"], function(Dropbox, _, app) {
     var DropboxService;
     return DropboxService = (function() {
       function DropboxService() {
@@ -9,6 +9,8 @@
         });
         if (typeof cordova !== "undefined" && cordova !== null) {
           this.client.authDriver(new Dropbox.AuthDriver.Cordova());
+        } else if ((typeof chrome !== "undefined" && chrome !== null ? chrome.storage : void 0) != null) {
+          this.client.authDriver(new Dropbox.AuthDriver.ChromeApp());
         } else {
           this.client.authDriver(new Dropbox.AuthDriver.Popup({
             receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
@@ -16,11 +18,16 @@
         }
         this.client.authenticate({
           interactive: false
-        });
-        if (this.isAuthenticated()) {
-          this.initDatastore();
-          app.trigger("dropboxService:authenticated");
-        }
+        }, (function(_this) {
+          return function(error) {
+            if (error) {
+              return console.error("dropboxService:authenticationError", error);
+            } else if (_this.isAuthenticated()) {
+              _this.initDatastore();
+              return app.trigger("dropboxService:authenticated");
+            }
+          };
+        })(this));
       }
 
       DropboxService.prototype.authenticate = function() {
