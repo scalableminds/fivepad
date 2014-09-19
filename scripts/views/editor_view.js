@@ -14,7 +14,7 @@
       EditorView.prototype.className = "editor-view";
 
       EditorView.prototype.initialize = function() {
-        return this.handleValueChange = _.debounce(this.handleValueChange, 200);
+        return this.handleValueChange = _.debounce(this.handleValueChange, 500);
       };
 
       EditorView.prototype.render = function() {
