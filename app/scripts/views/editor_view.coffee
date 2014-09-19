@@ -10,7 +10,7 @@ class EditorView extends Backbone.View
   className : "editor-view"
 
   initialize : ->
-    @handleValueChange = _.debounce(@handleValueChange, 200)
+    @handleValueChange = _.debounce(@handleValueChange, 500)
 
 
   render : ->
