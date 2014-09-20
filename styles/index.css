@@ -8125,7 +8125,6 @@ body,
   width: 100%;
   max-width: 830px;
   margin: 0 auto;
-  height: 600px;
   -webkit-flex: 1;
   flex: 1;
   position: relative;
@@ -8142,6 +8141,9 @@ body,
   font-size: 18px;
   font-weight: 300;
   line-height: 1.8;
+}
+.editor-view .CodeMirror-scroll {
+  -webkit-overflow-scrolling: touch;
 }
 .cm-s-empty {
   color: #3c3c3c;
@@ -8187,11 +8189,6 @@ body,
   border: none;
 }
 @media (max-width: 767px) {
-  #main,
-  .layout-view {
-    height: auto;
-    min-height: 100%;
-  }
   .layout-view {
     display: block;
   }
@@ -8202,19 +8199,7 @@ body,
     display: -webkit-flex;
     display: flex;
     width: 100%;
-    height: initial;
     min-height: 100%;
     overflow: auto;
-  }
-  .panel-view.active .editor-view {
-    height: initial;
-  }
-  .panel-view.active .CodeMirror {
-    position: static;
-    height: inherit;
-  }
-  .panel-view.active .CodeMirror-scroll {
-    overflow-x: auto;
-    overflow-y: hidden;
   }
 }

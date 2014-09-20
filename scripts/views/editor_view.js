@@ -23,7 +23,6 @@
           theme: "empty",
           lineNumbers: false,
           lineWrapping: true,
-          viewportMargin: Infinity,
           extraKeys: {
             "Enter": "newlineAndIndentContinueMarkdownList"
           }
