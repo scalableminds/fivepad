@@ -2,18 +2,28 @@
 
 
 .flex(@val) {
+  -webkit-box-flex: @val;
   -webkit-flex: @val;
+  -ms-flex: @val;
   flex: @val;
 }
 .display-flex {
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 .flex-direction(@val) {
   -webkit-flex-direction: @val;
+  -ms-flex-direction: @val;
   flex-direction: @val;
 }
 .justify-content(@val) {
   -webkit-justify-content: @val;
+  -ms-flex-align: @val;
   justify-content: @val;
+}
+.transform(@val) {
+  -webkit-transform: @val;
+  transform: @val;
 }
