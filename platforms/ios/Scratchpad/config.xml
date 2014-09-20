@@ -32,4 +32,5 @@
         <param name="android-package" value="org.apache.cordova.InAppBrowser" />
         <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
+    <preference name="DisallowOverscroll" value="true" />
 </widget>

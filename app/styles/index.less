@@ -97,7 +97,6 @@ html, body, #main, .layout-view {
   width: 100%;
   max-width: 830px;
   margin: 0 auto;
-  height: 600px;
   .flex(1);
   position: relative;
 
@@ -115,6 +114,10 @@ html, body, #main, .layout-view {
     font-weight : 300;
     line-height : 1.8;
 
+  }
+
+  .CodeMirror-scroll {
+    -webkit-overflow-scrolling: touch;
   }
 
 }
@@ -174,11 +177,6 @@ html, body, #main, .layout-view {
 
 @media(max-width: @screen-xs-max) {
 
-  #main, .layout-view {
-    height: auto;
-    min-height: 100%;
-  }
-
   .layout-view {
     display: block;
   }
@@ -188,21 +186,8 @@ html, body, #main, .layout-view {
     &.active {
       .display-flex;
       width: 100%;
-      height: initial;
       min-height: 100%;
       overflow: auto;
-
-      .editor-view {
-        height: initial;
-      }
-      .CodeMirror {
-        position: static;
-        height: inherit;
-      }
-      .CodeMirror-scroll {
-        overflow-x: auto;
-        overflow-y: hidden;
-      }
     }
   }
 }

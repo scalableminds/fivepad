@@ -20,7 +20,6 @@ class EditorView extends Backbone.View
       theme : "empty"
       lineNumbers : false
       lineWrapping : true
-      viewportMargin : Infinity
       extraKeys: {
         "Enter": "newlineAndIndentContinueMarkdownList"
       }
