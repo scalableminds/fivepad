@@ -8034,7 +8034,9 @@ div.CodeMirror-cursors {
 }
 
 .display-flex {
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 @font-face {
@@ -8057,7 +8059,9 @@ body,
   min-height: 100%;
 }
 .layout-view {
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
 }
 .layout-view .connection-label {
@@ -8072,16 +8076,22 @@ body,
   cursor: pointer;
 }
 .panel-view {
+  -webkit-box-flex: 1;
   -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   height: 100%;
   padding: 10px;
   overflow: hidden;
+  display: -webkit-box;
   display: -webkit-flex;
+  display: -ms-flexbox;
   display: flex;
   -webkit-flex-direction: column;
+  -ms-flex-direction: column;
   flex-direction: column;
   -webkit-justify-content: center;
+  -ms-flex-align: center;
   justify-content: center;
 }
 .panel-view .editor-view {
@@ -8089,10 +8099,18 @@ body,
 }
 .panel-view .title-label {
   display: block;
+  -webkit-box-flex: 1;
   -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   font-weight: 500;
   font-size: 20px;
+  -webkit-transform: rotate(-90deg);
+  transform: rotate(-90deg);
+  margin-left: -200px;
+  margin-right: -200px;
+  width: auto;
+  max-width: none;
 }
 .panel-view .title-input {
   display: none;
@@ -8106,7 +8124,9 @@ body,
 }
 .panel-view.active {
   width: 60%;
+  -webkit-box-flex: auto;
   -webkit-flex: auto;
+  -ms-flex: auto;
   flex: auto;
 }
 .panel-view.active .title-label {
@@ -8125,7 +8145,9 @@ body,
   width: 100%;
   max-width: 830px;
   margin: 0 auto;
+  -webkit-box-flex: 1;
   -webkit-flex: 1;
+  -ms-flex: 1;
   flex: 1;
   position: relative;
 }
@@ -8196,7 +8218,9 @@ body,
     display: none;
   }
   .panel-view.active {
+    display: -webkit-box;
     display: -webkit-flex;
+    display: -ms-flexbox;
     display: flex;
     width: 100%;
     min-height: 100%;
