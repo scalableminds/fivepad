@@ -128,6 +128,8 @@ class NoteModel
       chrome.storage.local.get("#{@LOCALSTORAGE_KEY}-#{@id}", (item) =>
         if item
           _.extend(@attributes, item["#{@LOCALSTORAGE_KEY}-#{@id}"])
+        else
+          @attributes.title = app.options.defaultTitle[@id]
         @loaded.resolve()
       )
 
@@ -135,5 +137,7 @@ class NoteModel
       storedString = window.localStorage.getItem("#{@LOCALSTORAGE_KEY}-#{@id}")
       if storedString
         _.extend(@attributes, JSON.parse(storedString))
+      else
+        @attributes.title = app.options.defaultTitle[@id]
       @loaded.resolve()
     return

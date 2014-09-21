@@ -29,6 +29,13 @@ requirejs [
         "#FF9F80"
         "#F56991"
       ]
+      defaultTitle : [
+        "Ideas"
+        "Random"
+        "Today"
+        "Work"
+        "Private"
+      ]
     }
   )
 
