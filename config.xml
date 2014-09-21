@@ -2,15 +2,17 @@
 <widget id="com.scalableminds.scratchpad" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>Scratchpad</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+      A syncing notepad app.
     </description>
     <author email="norman@scm.io" href="http://scm.io">
       Norman Rzepka &gt;norman@scm.io&lt;
     </author>
     <content src="index.html" />
-    <access origin="*" />
+    <access origin="https://*.dropbox.com/*" />
+    <access origin="https://dropbox.com/*" />
+    <access origin="https://scalableminds.github.io/*" />
     <feature name="InAppBrowser">
-      <param name="android-package" value="org.apache.cordova.InAppBrowser" />
+      <param name="android-package" value="org.apache.cordova.inappbrowser.InAppBrowser" />
       <param name="ios-package" value="CDVInAppBrowser" />
     </feature>
     <preference name="DisallowOverscroll" value="true"/>

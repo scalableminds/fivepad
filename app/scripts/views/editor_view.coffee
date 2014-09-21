@@ -15,16 +15,36 @@ class EditorView extends Backbone.View
 
   render : ->
 
-    @editor = CodeMirror(@el, {
-      mode : "markdown"
-      theme : "empty"
-      lineNumbers : false
-      lineWrapping : true
-      extraKeys: {
-        "Enter": "newlineAndIndentContinueMarkdownList"
+    if /android/i.test(window.navigator.userAgent)
+      @editorTextArea = $("<textarea>", class : "fallback-textarea").appendTo(@el)
+      @editorTextArea.on("input", =>
+        @handleValueChange(null, { origin : "userinput" })
+      )
+      @editor = {
+        getValue : =>
+          return @editorTextArea.val()
+
+        setValue : (value) =>
+          @editorTextArea.val(value)
+          return
+
+        focus : =>
+          @editorTextArea.focus()
+
+        refresh : ->
       }
-    })
-    @editor.on("change", @handleValueChange.bind(this))
+
+    else
+      @editor = CodeMirror(@el, {
+        mode : "markdown"
+        theme : "empty"
+        lineNumbers : false
+        lineWrapping : true
+        extraKeys: {
+          "Enter": "newlineAndIndentContinueMarkdownList"
+        }
+      })
+      @editor.on("change", @handleValueChange.bind(this))
 
     return this
 

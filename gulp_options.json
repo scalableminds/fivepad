@@ -8,14 +8,37 @@
       "www",
       "app/styles"
     ],
-    "images": "app/images/**/*.{jpg,png,gif}"
+    "images": "app/images/**/*.{jpg,png,gif}",
+    "icons": "app/images/icons/*.svg",
+    "splash": "app/images/splash/*.svg"
   },
   "dest": {
     "dir": "www",
     "scripts": "www/scripts",
     "styles": "www/styles",
-    "images": "www/images"
+    "images": "www/images",
+    "icons": "www/res",
+    "splash": "www/res"
   },
+  "splash": {
+    "android-xhdpi": [960, 720],
+    "android-hdpi": [640, 480],
+    "android-mdpi": [470, 320],
+    "android-ldpi": [426, 320]
+  },
+  "icons": [
+    1024,
+    180,
+    120,
+    120,
+    152,
+    87,
+    80,
+    76,
+    58,
+    40,
+    29
+  ],
   "serve": {
     "port": 8080,
     "root": "www",

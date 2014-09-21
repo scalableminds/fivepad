@@ -36,6 +36,8 @@ html, body, #main, .layout-view {
     color: #000;
     text-decoration: none;
     cursor: pointer;
+
+    z-index: 100;
   }
 }
 
@@ -105,7 +107,8 @@ html, body, #main, .layout-view {
   .flex(1);
   position: relative;
 
-  .CodeMirror {
+  .CodeMirror,
+  .fallback-textarea {
     position: absolute;
     top: 0;
     right: 0;
@@ -125,6 +128,13 @@ html, body, #main, .layout-view {
     -webkit-overflow-scrolling: touch;
   }
 
+  .fallback-textarea {
+    border: none;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    resize: none;
+    outline: none;
+  }
 }
 
 .cm-s-empty {
