@@ -129,6 +129,8 @@
             return function(item) {
               if (item) {
                 _.extend(_this.attributes, item["" + _this.LOCALSTORAGE_KEY + "-" + _this.id]);
+              } else {
+                _this.attributes.title = app.options.defaultTitle[_this.id];
               }
               return _this.loaded.resolve();
             };
@@ -137,6 +139,8 @@
           storedString = window.localStorage.getItem("" + this.LOCALSTORAGE_KEY + "-" + this.id);
           if (storedString) {
             _.extend(this.attributes, JSON.parse(storedString));
+          } else {
+            this.attributes.title = app.options.defaultTitle[this.id];
           }
           this.loaded.resolve();
         }

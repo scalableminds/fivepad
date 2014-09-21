@@ -12,7 +12,8 @@
     app.addInitializer(function() {
       return app.options = {
         panelCount: 5,
-        colors: ["#D1F2A5", "#EFFAB4", "#FFC48C", "#FF9F80", "#F56991"]
+        colors: ["#D1F2A5", "#EFFAB4", "#FFC48C", "#FF9F80", "#F56991"],
+        defaultTitle: ["Ideas", "Random", "Today", "Work", "Private"]
       };
     });
     app.addInitializer(function() {
