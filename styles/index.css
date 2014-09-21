@@ -8074,6 +8074,7 @@ body,
   color: #000;
   text-decoration: none;
   cursor: pointer;
+  z-index: 100;
 }
 .panel-view {
   -webkit-box-flex: 1;
@@ -8151,7 +8152,8 @@ body,
   flex: 1;
   position: relative;
 }
-.editor-view .CodeMirror {
+.editor-view .CodeMirror,
+.editor-view .fallback-textarea {
   position: absolute;
   top: 0;
   right: 0;
@@ -8166,6 +8168,13 @@ body,
 }
 .editor-view .CodeMirror-scroll {
   -webkit-overflow-scrolling: touch;
+}
+.editor-view .fallback-textarea {
+  border: none;
+  width: 100%;
+  -webkit-overflow-scrolling: touch;
+  resize: none;
+  outline: none;
 }
 .cm-s-empty {
   color: #3c3c3c;

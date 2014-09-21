@@ -18,16 +18,47 @@
       };
 
       EditorView.prototype.render = function() {
-        this.editor = CodeMirror(this.el, {
-          mode: "markdown",
-          theme: "empty",
-          lineNumbers: false,
-          lineWrapping: true,
-          extraKeys: {
-            "Enter": "newlineAndIndentContinueMarkdownList"
-          }
-        });
-        this.editor.on("change", this.handleValueChange.bind(this));
+        if (/android/i.test(window.navigator.userAgent)) {
+          this.editorTextArea = $("<textarea>", {
+            "class": "fallback-textarea"
+          }).appendTo(this.el);
+          this.editorTextArea.on("input", (function(_this) {
+            return function() {
+              return _this.handleValueChange(null, {
+                origin: "userinput"
+              });
+            };
+          })(this));
+          this.editor = {
+            getValue: (function(_this) {
+              return function() {
+                return _this.editorTextArea.val();
+              };
+            })(this),
+            setValue: (function(_this) {
+              return function(value) {
+                _this.editorTextArea.val(value);
+              };
+            })(this),
+            focus: (function(_this) {
+              return function() {
+                return _this.editorTextArea.focus();
+              };
+            })(this),
+            refresh: function() {}
+          };
+        } else {
+          this.editor = CodeMirror(this.el, {
+            mode: "markdown",
+            theme: "empty",
+            lineNumbers: false,
+            lineWrapping: true,
+            extraKeys: {
+              "Enter": "newlineAndIndentContinueMarkdownList"
+            }
+          });
+          this.editor.on("change", this.handleValueChange.bind(this));
+        }
         return this;
       };
 
