@@ -54,7 +54,9 @@
             lineNumbers: false,
             lineWrapping: true,
             extraKeys: {
-              "Enter": "newlineAndIndentContinueMarkdownList"
+              "Enter": "newlineAndIndentContinueMarkdownList",
+              "Tab": "indentMore",
+              "Shift-Tab": "indentLess"
             }
           });
           this.editor.on("change", this.handleValueChange.bind(this));
