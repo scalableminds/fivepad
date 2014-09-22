@@ -42,6 +42,8 @@ class EditorView extends Backbone.View
         lineWrapping : true
         extraKeys: {
           "Enter": "newlineAndIndentContinueMarkdownList"
+          "Tab": "indentMore",
+          "Shift-Tab": "indentLess"
         }
       })
       @editor.on("change", @handleValueChange.bind(this))
