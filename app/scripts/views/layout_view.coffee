@@ -38,11 +38,21 @@ class LayoutView extends Backbone.View
 
     Hammer(document.body).on("swiperight", =>
       if window.innerWidth <= SCREEN_XS_MAX and @activeIndex > 0
-        app.router.navigate("/panel/#{@activeIndex - 1}", trigger : true)
+        app.router.prevPanel()
     )
     Hammer(document.body).on("swipeleft", =>
       if window.innerWidth <= SCREEN_XS_MAX and @activeIndex < (app.options.panelCount - 1)
-        app.router.navigate("/panel/#{@activeIndex + 1}", trigger : true)
+        app.router.nextPanel()
+    )
+
+    Mousetrap.bind("ctrl+left", (event) =>
+      event.preventDefault()
+      app.router.prevPanel()
+    )
+
+    Mousetrap.bind("ctrl+right", (event) =>
+      event.preventDefault()
+      app.router.nextPanel()
     )
 
     @listenTo(this, "pageshow", ->

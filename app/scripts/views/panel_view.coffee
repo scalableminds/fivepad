@@ -5,6 +5,8 @@ app : app
 ./editor_view : EditorView
 ###
 
+SCREEN_XS_MAX = 767
+
 class PanelView extends Backbone.View
 
   template : """
@@ -72,7 +74,8 @@ class PanelView extends Backbone.View
   activate : ->
     @$el.addClass("active")
     @editorView.refresh()
-    # @editorView.focus()
+    if window.innerWidth > SCREEN_XS_MAX
+      @editorView.focus()
 
 
   deactivate : ->

@@ -44,6 +44,8 @@ class EditorView extends Backbone.View
           "Enter": "newlineAndIndentContinueMarkdownList"
           "Tab": "indentMore",
           "Shift-Tab": "indentLess"
+          "Ctrl-Left": -> app.router.prevPanel()
+          "Ctrl-Right": -> app.router.nextPanel()
         }
       })
       @editor.on("change", @handleValueChange.bind(this))
