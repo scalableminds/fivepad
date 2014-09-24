@@ -56,7 +56,13 @@
             extraKeys: {
               "Enter": "newlineAndIndentContinueMarkdownList",
               "Tab": "indentMore",
-              "Shift-Tab": "indentLess"
+              "Shift-Tab": "indentLess",
+              "Ctrl-Left": function() {
+                return app.router.prevPanel();
+              },
+              "Ctrl-Right": function() {
+                return app.router.nextPanel();
+              }
             }
           });
           this.editor.on("change", this.handleValueChange.bind(this));

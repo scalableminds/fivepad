@@ -3,7 +3,8 @@
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
   define(["backbone", "mousetrap", "app", "./editor_view"], function(Backbone, Mousetrap, app, EditorView) {
-    var PanelView;
+    var PanelView, SCREEN_XS_MAX;
+    SCREEN_XS_MAX = 767;
     return PanelView = (function(_super) {
       __extends(PanelView, _super);
 
@@ -71,7 +72,10 @@
 
       PanelView.prototype.activate = function() {
         this.$el.addClass("active");
-        return this.editorView.refresh();
+        this.editorView.refresh();
+        if (window.innerWidth > SCREEN_XS_MAX) {
+          return this.editorView.focus();
+        }
       };
 
       PanelView.prototype.deactivate = function() {

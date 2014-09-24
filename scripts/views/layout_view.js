@@ -42,19 +42,27 @@
         Hammer(document.body).on("swiperight", (function(_this) {
           return function() {
             if (window.innerWidth <= SCREEN_XS_MAX && _this.activeIndex > 0) {
-              return app.router.navigate("/panel/" + (_this.activeIndex - 1), {
-                trigger: true
-              });
+              return app.router.prevPanel();
             }
           };
         })(this));
         Hammer(document.body).on("swipeleft", (function(_this) {
           return function() {
             if (window.innerWidth <= SCREEN_XS_MAX && _this.activeIndex < (app.options.panelCount - 1)) {
-              return app.router.navigate("/panel/" + (_this.activeIndex + 1), {
-                trigger: true
-              });
+              return app.router.nextPanel();
             }
+          };
+        })(this));
+        Mousetrap.bind("ctrl+left", (function(_this) {
+          return function(event) {
+            event.preventDefault();
+            return app.router.prevPanel();
+          };
+        })(this));
+        Mousetrap.bind("ctrl+right", (function(_this) {
+          return function(event) {
+            event.preventDefault();
+            return app.router.nextPanel();
           };
         })(this));
         this.listenTo(this, "pageshow", function() {
