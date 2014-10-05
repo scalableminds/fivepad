@@ -1,7 +1,7 @@
 {
   "name": "Fivepad",
-  "description": "My first Chrome App.",
-  "version": "0.1",
+  "description": "A synching notepad with exactly 5 panels.",
+  "version": "0.0.1",
   "manifest_version": 2,
   "app": {
     "background": {
