@@ -29,7 +29,7 @@
     },
     "installed_plugins": {
         "org.apache.cordova.inappbrowser": {
-            "PACKAGE_NAME": "com.scalableminds.scratchpad"
+            "PACKAGE_NAME": "com.scalableminds.fivepad"
         }
     },
     "dependent_plugins": {}

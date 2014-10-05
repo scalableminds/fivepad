@@ -1,4 +1,4 @@
-# Scratchpad
+# Fivepad
 
 Synopsis
 
@@ -7,5 +7,5 @@ Synopsis
 ## Usage
 
 ## Licence
-All rights reserved.  
+MIT  
 &copy; 2014 scalable minds

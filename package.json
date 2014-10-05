@@ -1,15 +1,15 @@
 {
-  "name": "scratchpad",
+  "name": "fivepad",
   "version": "0.0.0",
   "description": "",
   "main": "index.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/scalableminds/scratchpad"
+    "url": "git://github.com/scalableminds/fivepad"
   },
   "author": "Your Name <email@scm.io>",
   "license": "MIT",
-  "homepage": "https://github.com/scalableminds/scratchpad",
+  "homepage": "https://github.com/scalableminds/fivepad",
   "dependencies": {
     "amd-optimize": "0.2.5",
     "bower": "^1.3.8",
