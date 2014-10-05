@@ -1,17 +1,17 @@
 {
   "name": "hammerjs",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "main": "hammer.js",
   "ignore": [
     "tests",
     "src"
   ],
   "homepage": "https://github.com/EightMedia/hammer.js",
-  "_release": "2.0.3",
+  "_release": "2.0.4",
   "_resolution": {
     "type": "version",
-    "tag": "2.0.3",
-    "commit": "06ab492c52febd78676e05dec849612004ea154e"
+    "tag": "2.0.4",
+    "commit": "7fc11efb37d6f2334ce957e26e9cf53690e10fa5"
   },
   "_source": "git://github.com/EightMedia/hammer.js.git",
   "_target": "~2.0.2",

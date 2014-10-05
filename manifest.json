@@ -1,5 +1,5 @@
 {
-  "name": "Scratchpad",
+  "name": "Fivepad",
   "description": "My first Chrome App.",
   "version": "0.1",
   "manifest_version": 2,
@@ -12,6 +12,6 @@
   "permissions": [
     "storage",
     "identity",
-    "https://www.dropbox.com/*"
+    "https://www.dropbox.com/1/oauth2/authorize"
   ]
 }
