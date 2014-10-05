@@ -36,7 +36,7 @@
         url = URL.createObjectURL(blob);
         a = $("<a>", {
           href: url,
-          download: "scratchpad-export.json"
+          download: "fivepad-export.json"
         });
         a.appendTo(document.body);
         _.defer(function() {

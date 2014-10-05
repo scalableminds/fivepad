@@ -17,20 +17,20 @@
         this.load();
         app.on("dropboxService:recordsChangedRemote", (function(_this) {
           return function() {
-            console.log(_this.id, "dropbox change");
+            console.debug(_this.id, "dropbox change");
             return _this.sync();
           };
         })(this));
         app.on("dropboxService:synced", (function(_this) {
           return function() {
-            console.log(_this.id, "dropbox synced", _this.pull()._revision);
+            console.debug(_this.id, "dropbox synced", _this.pull()._revision);
             _this.attributes._syncedRevision = _this.pull()._revision;
             return _this.persist();
           };
         })(this));
         app.on("dropboxService:ready", (function(_this) {
           return function() {
-            console.log(_this.id, "dropbox ready");
+            console.debug(_this.id, "dropbox ready");
             return _this.sync().then(function() {
               return _this.trigger("reset");
             });
@@ -65,7 +65,7 @@
             if (remote = _this.pull()) {
               local = _this.attributes;
               if (local._revision > local._syncedRevision && remote._revision > local._syncedRevision && !app.dropboxService.isTransient()) {
-                console.log(_this.id, "merge conflict", app.dropboxService.isTransient());
+                console.debug(_this.id, "merge conflict", app.dropboxService.isTransient());
                 if (!confirm("Merge conflict in Panel '" + local.title + "'. Do you wish to keep your local changes?")) {
                   _this.attributes.title = remote.title;
                   _this.attributes.contents = remote.contents;
@@ -78,15 +78,15 @@
                 _this.attributes._syncedRevision = remote._revision;
                 _this.persist();
                 if (local._revision > remote._revision) {
-                  console.log(_this.id, "merge local");
+                  console.debug(_this.id, "merge local");
                   _this.push();
                 } else if (local._revision < remote._revision) {
-                  console.log(_this.id, "merge remote");
+                  console.debug(_this.id, "merge remote");
                   _.extend(_this.attributes, remote);
                   _this.trigger("reset");
                   _this.persist();
                 } else {
-                  console.log(_this.id, "merge equal");
+                  console.debug(_this.id, "merge equal");
                 }
               }
             } else {

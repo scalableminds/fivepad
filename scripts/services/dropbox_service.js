@@ -13,7 +13,7 @@
           this.client.authDriver(new Dropbox.AuthDriver.ChromeApp());
         } else {
           this.client.authDriver(new Dropbox.AuthDriver.Popup({
-            receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
+            receiverUrl: "https://scalableminds.github.io/fivepad/oauth_receiver.html"
           }));
         }
         this.client.authenticate({
