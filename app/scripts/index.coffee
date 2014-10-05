@@ -48,7 +48,7 @@ requirejs [
     app.export = ->
       blob = new Blob([ JSON.stringify(app.models.map((a) -> a.toJSON())) ], { type : "application/octet-stream" })
       url = URL.createObjectURL(blob)
-      a = $("<a>", href : url, download : "scratchpad-export.json")
+      a = $("<a>", href : url, download : "fivepad-export.json")
       a.appendTo(document.body)
       _.defer -> a.trigger("click")
       return

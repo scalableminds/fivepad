@@ -40,6 +40,7 @@ class EditorView extends Backbone.View
         theme : "empty"
         lineNumbers : false
         lineWrapping : true
+        autoCloseBrackets: true
         extraKeys: {
           "Enter": "newlineAndIndentContinueMarkdownList"
           "Tab": "indentMore",

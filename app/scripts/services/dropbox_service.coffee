@@ -23,7 +23,7 @@ class DropboxService
     else
       @client.authDriver(
         new Dropbox.AuthDriver.Popup({
-          receiverUrl: "https://scalableminds.github.io/scratchpad/oauth_receiver.html"
+          receiverUrl: "https://scalableminds.github.io/fivepad/oauth_receiver.html"
         }))
 
     @client.authenticate({ interactive : false }, (error) =>

@@ -24,16 +24,16 @@ class NoteModel
     @load()
 
     app.on("dropboxService:recordsChangedRemote", =>
-      console.log(@id, "dropbox change")
+      console.debug(@id, "dropbox change")
       @sync()
     )
     app.on("dropboxService:synced", =>
-      console.log(@id, "dropbox synced", @pull()._revision)
+      console.debug(@id, "dropbox synced", @pull()._revision)
       @attributes._syncedRevision = @pull()._revision
       @persist()
     )
     app.on("dropboxService:ready", =>
-      console.log(@id, "dropbox ready")
+      console.debug(@id, "dropbox ready")
       @sync().then( => @trigger("reset"))
     )
 
@@ -64,7 +64,7 @@ class NoteModel
         if local._revision > local._syncedRevision and
            remote._revision > local._syncedRevision and
            not app.dropboxService.isTransient()
-          console.log(@id, "merge conflict", app.dropboxService.isTransient())
+          console.debug(@id, "merge conflict", app.dropboxService.isTransient())
 
           if not confirm("Merge conflict in Panel '#{local.title}'. Do you wish to keep your local changes?")
             @attributes.title = remote.title
@@ -80,15 +80,15 @@ class NoteModel
           @persist()
 
           if local._revision > remote._revision
-            console.log(@id, "merge local")
+            console.debug(@id, "merge local")
             @push()
           else if local._revision < remote._revision
-            console.log(@id, "merge remote")
+            console.debug(@id, "merge remote")
             _.extend(@attributes, remote)
             @trigger("reset")
             @persist()
           else
-            console.log(@id, "merge equal")
+            console.debug(@id, "merge equal")
 
       else
         @push()
